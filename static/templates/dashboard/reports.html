@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+{% comment %} action="{% url 'register' %}" {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}  
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        label {
+          display: block;
+          font:
+            1rem 'Fira Sans',
+            sans-serif;
+        }
+        
+        input,
+        label {
+          margin: 0.4rem 0;
+        }
+        
+    </style>
+<head>
+  <p>
+    <a href={% url 'dashboardhome'%}>Dashboard<a>
+  </p>
+  <p>
+    <a href={%url 'foodlist'%}>FoodList</a>
+  </p>
+  <p>
+      <a href={% url 'reports'%}>Reports<a>
+  </p>
+  <p>
+    <a href={% url 'settings'%}>Settings<a>
+  </p>  
+</head>
+  <body>
+
+  <div>
+    <form action='' method='POST' >
+      {% csrf_token %}
+      <label for="start">Start date:</label>
+      <input type="date" id="start" name="trip-start" value="{{ startdate }}" min="2018-01-01" max="{{ startdate }}" />
+      <label for="stop">Stop date:</label>
+      <input type="date" id="stop" name="trip-stop" value="{{ enddate }}" min="2018-01-01" max="{{ endadate }}" />
+      <input type="submit" class="btn btn-default" value="Submit" >
+
+  </div>
+  
+  <table>
+    <tr>
+      <th>Number of orders</th>
+      <th>Date Range</th>
+      <th>Income</th>
+    </tr>
+    <tr>
+      <td>{{ num }}</td>
+      <td>{{ startdate }} to {{ enddate }}</td>
+      <td>{{ income }}</td>
+    </tr>
+  </table>
+
+  <table>
+      <tr>
+        <th>Order Id</th>
+        <th>Date</th>
+        <th>Price</th>
+      </tr>
+  {% for i in orders %}
+      <tr>
+          <td>{{ i.id }}</td>
+          <td>{{i.created_at}}</td>
+          <td>{{i.amount_paid}}</td>
+
+      </tr>
+  {%endfor%}
+
+    </table>
+</body>
+{%endblock%}

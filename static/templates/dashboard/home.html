@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+{% comment %} action="{% url 'register' %}" {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}  
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+  
+    </style>
+<head>
+    <p>
+      <a href={% url 'dashboardhome'%}>Dashboard<a>
+    </p>
+    <p>
+      <a href={%url 'foodlist'%}>FoodList</a>
+    </p>
+    <p>
+        <a href={% url 'reports'%}>Reports<a>
+    </p>
+    <p>
+      <a href={% url 'settings'%}>Settings<a>
+</head>  
+<body>
+  <table>
+      <tr>
+        <th>Sub</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>State</th>
+        <th>Address</th>
+      </tr>
+  {% for i in orders %}
+      <tr>
+          <td>{{ i.id }}</td>
+          <td> {{i.cus }}</td>
+          <td>{{i.cus.phone}}</td>
+          <td>
+            <form method='POST' action="{% url 'update' i.id %}" id="{{i.id }}">
+            <div class="row">
+              {%csrf_token%}
+              <div class="col">
+                <select class="form-select" id="{{i.id }}" name="choice" id='choice' aria-label="Default select example" required>
+                  {%for j in state%}
+                  <option value ="{{ forloop.counter }}" {%if i.state == j%}selected{%endif%}>{{ j }}</option>
+                  {%endfor%}
+              </div>
+              <div class="col">
+                <input type="submit" class="btn btn-default" value="Submit" >
+              </div>
+            </div>
+            </form>
+          </td>
+          <td>{%if address.cust == i.cus %}{{ address.city }}{%else%} - {%endif%}</td>
+        </tr>
+  {%endfor%}
+
+    </table>
+</body>
+{%endblock%}

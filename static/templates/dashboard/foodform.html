@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<head>
+    <p>
+      <a href={% url 'dashboardhome'%}>Dashboard<a>
+    </p>
+    <p>
+      <a href={%url 'foodlist'%}>FoodList</a>
+    </p>
+    <p>
+        <a href={% url 'reports'%}>Reports<a>
+    </p>
+    <p>
+      <a href={% url 'settings'%}>Settings<a>
+    </p>  
+  </head>
+<form  method="POST" autocomplete="off" enctype='multipart/form-data'>
+    {% csrf_token %}
+  
+    <div class="field">
+        <label for="{{ form.image.id_for_label }}" class="label">
+            Image:
+        </label>
+        <div class="control">
+            {{ form.image|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.image.errors }}</p>
+    </div>
+
+    <div class="field">
+        <label for="{{ form.name.id_for_label }}" class="label">
+            Name:
+        </label>
+        <div class="control">
+            {{ form.name|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.name.errors }}</p>
+    </div>
+ 
+
+    <div class="field">
+        <label for="{{ form.ingredients.id_for_label }}" class="label">
+            ingredients:
+        </label>
+        <div class="control">
+            {{ form.ingredients|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.ingredients.errors }}</p>
+    </div>
+ 
+    <div class="field">
+        <label for="{{ form.category.id_for_label }}" class="label">
+          Category
+        </label>
+        <div class="control">
+            {{ form.category|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.category.errors }}</p>
+    </div>
+ 
+    <div class="field">
+        <label for="{{ form.price.id_for_label }}" class="label">
+          Price
+        </label>
+        <div class="control">
+            {{ form.price|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.price.errors }}</p>
+    </div>
+ 
+    <div class="field">
+        <label for="{{ form.discount.id_for_label }}" class="label">
+            Discount
+        </label>
+        <div class="control">
+            {{ form.discount|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.discount.errors }}</p>
+    </div>
+    <div class="field">
+        <label for="{{ form.is_available.id_for_label }}" class="label">
+            Is Available:
+        </label>
+        <div class="control">
+            {{ form.is_available|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.is_available.errors }}</p>
+    </div>
+    <div class="field">
+        <label for="{{ form.foodparty.id_for_label }}" class="label">
+            Foodparty:
+        </label>
+        <div class="control">
+            {{ form.foodparty|add_class:"input" }}
+        </div>
+        <p class="help is-danger">{{ form.foodparty.errors }}</p>
+    </div>
+ 
+    <div class="field">
+        <div class="control">
+            <button class="button is-link">Add</button>
+        </div>
+    </div>
+ </form>
+ 
+{% endblock content %}
+
+
+
+

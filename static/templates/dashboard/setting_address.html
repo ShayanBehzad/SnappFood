@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head>
+    <p>
+      <a href={% url 'dashboardhome'%}>Dashboard<a>
+    </p>
+    <p>
+      <a href={%url 'foodlist'%}>FoodList</a>
+    </p>
+    <p>
+        <a href={% url 'foodform'%}>Add Food<a>
+    </p>
+    <p>
+        <a href={% url 'reports'%}>Reports<a>
+    </p>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+    <form method="post" action="{%url 'address_setting'%}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>
+{%endblock%}

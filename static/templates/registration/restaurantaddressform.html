@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<form method="post" action="{% url 'restaddress' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    {{form.as_p}}
+  </div>
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>
+{% endblock content %}

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head>
+    <p>
+      <a href={% url 'dashboardhome'%}>Dashboard<a>
+    </p>
+    <p>
+      <a href={%url 'foodlist'%}>FoodList</a>
+    </p>
+    <p>
+        <a href={% url 'foodform'%}>Add Food<a>
+    </p>
+    <p>
+        <a href={% url 'reports'%}>Reports<a>
+    </p>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Restaurant Settings</h2>
+    <form method="post" action="{%url 'settings'%}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_image">Image:</label>
+        {% if form.instance.image %}
+          <img src="{{ form.instance.image.url }}" alt="Restaurant Image" style="max-width: 200px;">
+        {% endif %}
+        {{ form.image }}
+      </div>
+      <div class="form-group">
+        <label for="id_name">Name:</label>
+        {{ form.name }}
+      </div>
+      
+      <div class="form-group">
+        <label for="id_restaurant_type">Restaurant Type:</label>
+        {{ form.restaurant_type }}
+      </div>
+      
+      <div class="form-group">
+        <label for="id_phone">Phone:</label>
+        {{ form.phone }}
+      </div>
+      
+      
+      <div class="form-group">
+        <div class="field">
+          <label for="{{ form.shipping_cost.id_for_label }}" class="label">
+              Shipping cost:
+          </label>
+          <div class="control">
+              {{ form.shipping_cost|add_class:"input" }}
+          </div>
+          <p class="help is-danger">{{ form.shipping_cost.errors }}</p>
+      </div>
+      </div>
+      <div class="form-group">
+        <div class="field">
+          <label for="{{ form.is_open.id_for_label }}" class="label">
+            Is Open
+          </label>
+          <div class="control">
+              {{ form.is_open|add_class:"input" }}
+          </div>
+          <p class="help is-danger">{{ form.is_open.errors }}</p>
+      </div>
+      </div>
+      <p>
+        <a href={% url 'address_setting'%}>address<a>
+    </p>
+    <p>
+      <a href={% url 'schedule_setting'%}>schedule<a>
+  </p>
+      <input type="submit" value="Save Changes" class="btn">
+    </form>
+  </div>
+</body>
+</html>
+{%endblock%}
