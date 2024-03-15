@@ -5,3 +5,11 @@ Welcome to the SnappFood Clone project! This project is a comprehensive food del
 - Seller Section: Allows sellers to manage their listings, make, view, and manage orders, and update their inventory. After registration, each seller will get a welcome email sent via Celery and Redis.
 - Admin Section: Provides administrative tools for managing users, sellers, and overall platform settings.
 - Customer Section: Implemented as a REST API, this section allows customers to register, view restaurants, view foods, make and submit order carts, get and post comments, rate restaurants and manage their orders through a secure and efficient interface.
+
+
+## Used:
+- Django
+- Django Rest Framework
+- PostgreSql
+- Celery
+- Redis
