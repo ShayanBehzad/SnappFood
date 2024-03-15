@@ -1,3 +1,4 @@
+from audioop import add
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
@@ -6,8 +7,6 @@ from .forms import *
 from django.contrib.auth import login
 from django.http import Http404
 from register.models import User
-from .tasks import send_notification_mail
-from django.core.mail import send_mail
 
 
 
@@ -28,18 +27,6 @@ def register(request):
 
         if forms.is_valid():
             # save the info
-            mail = forms.cleaned_data['email']
-            print(mail)
-            name = forms.cleaned_data['username']
-            send_notification_mail.delay(mail, 'Dear %s Welcome To SnappFood' %name)
-            # send_mail(    
-            #     "Welcome on Board!",
-            #     'Dear %s Welcome To SnappFood' %name,
-            #     "shayan.behzad1380@example.com",
-            #     ["shohreparsa8@gmail.com"],
-            #     auth_password='sqdvodckgmtbfsgd',
-            #     fail_silently=False,
-            #     )
             user = forms.save(commit=False)
             user.username = user.username.lower()
             user.role = User.SELLER
