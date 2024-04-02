@@ -54,7 +54,6 @@ def updade_form(request, sub):
         cus.save()
         res = Restaurant.objects.get(seller=request.user)
         state = State.objects.all()
-        print('ttttttttttttttttttt   ', res)
         orders = Order.objects.filter(Q(restaurant=res) , (Q(state=1) | Q(state=2) | Q(state=3)))
         context = {'orders':orders, 'state':state}
 
@@ -106,7 +105,6 @@ def editfoodform(request, food_id):
         if forms.is_valid():
             food = forms.save(commit=False)
             food.name = food.name.lower()
-            print(food)
             food.save()
             res = Restaurant.objects.get(seller=request.user)
             res.foods.add(food)
