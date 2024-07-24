@@ -8,33 +8,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <p>
-        <a href={% url 'dashboardhome'%}>Dashboard<a>
-    </p>
-    <p>
-        <a href={% url 'foodform'%}>Add Food<a>
-    </p>
-    <p>
-        <a href={% url 'reports'%}>Reports<a>
-    </p>
+    <div class="nav-buttons">
+        <p>
+            <a href="{% url 'dashboardhome' %}">Dashboard</a>
+        </p>
+        <p>
+            <a href="{% url 'foodform' %}">Add Food</a>
+        </p>
+        <p>
+            <a href="{% url 'reports' %}">Reports</a>
+        </p>
+    </div>
     {% block style %}
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% endblock %}  
-
+</head>
+<body style='direction: ltr;'>
 {% block title %}
 
     {% if category %}
         {{ category.name }}
     {% else %} 
-         Foods
+         <h1 style='color:black'>Foods</h1>
     {% endif %}
 {% endblock %}
-    <div id="sidebar">
+    {% comment %} <div id="sidebar">
         <h3>Categories</h3>
         <ul>
-            {% comment %} <li {% if not category %}class="selected"{% endif %}>
-                <a href="{% url "shop:product_list" %}">All</a>
-            </li> {% endcomment %}
 
             {% for c in categories %}
                 <li {% if category.slug == c.slug %} class="selected" {% endif %}>
@@ -42,7 +42,7 @@
                 </li>
             {% endfor %}
         </ul>
-    </div>
+    </div> {% endcomment %}
 
     <div id="main" class="foods-list">
         {% comment %} <h1>{% if category %}{{ category.name }}{% else %}All{% endif %}</h1> {% endcomment %}
@@ -57,5 +57,6 @@
             </div>
         {% endfor %}
     </div>
+</body>
 {% endblock %}
 {% comment %} {% endcomment %}

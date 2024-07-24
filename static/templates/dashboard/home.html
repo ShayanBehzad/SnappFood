@@ -9,39 +9,69 @@
 <html>
     {% block style %}
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> {% endcomment %}
     {% endblock %}  
     <style>
         table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
         }
         
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            text-align: center;
+            padding: 12px;
+        }
+        
+        td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 12px;
         }
         
         tr:nth-child(even) {
-          background-color: #dddddd;
+            background-color: #f9f9f9;
         }
-  
+        
+        {% comment %} .nav-buttons {
+            margin-bottom: 20px;
+        }
+        
+        .nav-buttons p {
+            display: inline;
+            margin-right: 20px;
+        }
+        
+        .nav-buttons a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        
+        .nav-buttons a:hover {
+            text-decoration: underline;
+        } {% endcomment %}
     </style>
 <head>
-    <p>
-      <a href={% url 'dashboardhome'%}>Dashboard<a>
+
+    <div class="nav-buttons">
+      <p>
+          <a href="{% url 'dashboardhome' %}">Dashboard</a>
+      </p>
+      <p>
+          <a href="{% url 'foodlist' %}">Food List</a>
+      </p>
+      <p>
+          <a href="{% url 'reports' %}">Reports</a>
+      </p>
+      <p>
+        <a href="{% url 'settings' %}">Settings</a>
     </p>
-    <p>
-      <a href={%url 'foodlist'%}>FoodList</a>
-    </p>
-    <p>
-        <a href={% url 'reports'%}>Reports<a>
-    </p>
-    <p>
-      <a href={% url 'settings'%}>Settings<a>
+  </div>
 </head>  
-<body>
+<body style='direction: ltr;'>
   <table>
       <tr>
         <th>Sub</th>

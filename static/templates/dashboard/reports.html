@@ -12,59 +12,79 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% endblock %}  
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        .nav-buttons p {
+            display: inline;
+            margin-right: 15px;
+        }
+        .nav-buttons a {
+            text-decoration: none;
+            color: White;
+            font-weight: bold;
+        }
+        .nav-buttons a:hover {
+            text-decoration: underline;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font: 1rem 'Fira Sans', sans-serif;
+        }
+        input, label {
+            margin: 0.4rem 0;
+        }
         table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
         }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
         }
-        
+        th {
+            background-color: #f2f2f2;
+            color: black;
+            font-weight: bold;
+        }
         tr:nth-child(even) {
-          background-color: #dddddd;
+            background-color: #f9f9f9;
         }
-        label {
-          display: block;
-          font:
-            1rem 'Fira Sans',
-            sans-serif;
+        tr:hover {
+            background-color: #f1f1f1;
         }
-        
-        input,
-        label {
-          margin: 0.4rem 0;
-        }
-        
     </style>
 <head>
-  <p>
-    <a href={% url 'dashboardhome'%}>Dashboard<a>
+  <div class="nav-buttons">
+    <p>
+        <a href="{% url 'dashboardhome' %}">Dashboard</a>
+    </p>
+    <p>
+        <a href="{% url 'foodlist' %}">Food List</a>
+    </p>
+    <p>
+        <a href="{% url 'reports' %}">Reports</a>
+    </p>
+    <p>
+      <a href="{% url 'settings' %}">Settings</a>
   </p>
-  <p>
-    <a href={%url 'foodlist'%}>FoodList</a>
-  </p>
-  <p>
-      <a href={% url 'reports'%}>Reports<a>
-  </p>
-  <p>
-    <a href={% url 'settings'%}>Settings<a>
-  </p>  
+</div>
 </head>
-  <body>
-
+  <body style='direction: ltr;'>
   <div>
-    <form action='' method='POST' >
+    <form action='' method='POST'>
       {% csrf_token %}
       <label for="start">Start date:</label>
       <input type="date" id="start" name="trip-start" value="{{ startdate }}" min="2018-01-01" max="{{ startdate }}" />
       <label for="stop">Stop date:</label>
-      <input type="date" id="stop" name="trip-stop" value="{{ enddate }}" min="2018-01-01" max="{{ endadate }}" />
-      <input type="submit" class="btn btn-default" value="Submit" >
-
+      <input type="date" id="stop" name="trip-stop" value="{{ enddate }}" min="2018-01-01" max="{{ enddate }}" />
+      <input type="submit" class="btn btn-default" value="Submit">
+    </form>
   </div>
   
   <table>
@@ -89,12 +109,10 @@
   {% for i in orders %}
       <tr>
           <td>{{ i.id }}</td>
-          <td>{{i.created_at}}</td>
-          <td>{{i.amount_paid}}</td>
-
+          <td>{{ i.created_at }}</td>
+          <td>{{ i.amount_paid }}</td>
       </tr>
-  {%endfor%}
-
-    </table>
+  {% endfor %}
+  </table>
 </body>
-{%endblock%}
+{% endblock %}

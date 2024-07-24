@@ -6,18 +6,20 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <head>
-    <p>
-      <a href={% url 'dashboardhome'%}>Dashboard<a>
-    </p>
-    <p>
-      <a href={%url 'foodlist'%}>FoodList</a>
-    </p>
-    <p>
-        <a href={% url 'reports'%}>Reports<a>
-    </p>
-    <p>
-      <a href={% url 'settings'%}>Settings<a>
-    </p>  
+    <div class="nav-buttons">
+        <p>
+            <a href="{% url 'dashboardhome' %}">Dashboard</a>
+        </p>
+        <p>
+            <a href="{% url 'foodlist' %}">Food List</a>
+        </p>
+        <p>
+            <a href="{% url 'reports' %}">Reports</a>
+        </p>
+        <p>
+          <a href="{% url 'settings' %}">Settings</a>
+      </p>
+    </div>
   </head>
 <form  method="POST" autocomplete="off" enctype='multipart/form-data'>
     {% csrf_token %}
