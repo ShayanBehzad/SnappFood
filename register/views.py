@@ -19,9 +19,6 @@ from django.core.mail import send_mail
 
 @csrf_exempt
 def register(request):
-    if request.method == 'GET':
-        forms = Registerform
-        return render(request, 'registration/register.html', {'form': forms})
     
     if request.method == 'POST':
         forms = Registerform(request.POST)
@@ -52,8 +49,10 @@ def register(request):
 
         else:
             print(forms.errors)
-            raise Http404 
-
+            raise Http404
+        
+    forms = Registerform
+    return render(request, 'registration/register.html', {'form': forms})
 
 @csrf_exempt
 def restregister(request):
@@ -97,7 +96,9 @@ def restaddressregister(request):
     return render(request, 'registration/restaurantaddressform.html', {'form':forms})
 
 
-
+def test(request):
+    context = {}
+    return render(request, 'registration/home.html', context)
 
     
 # Another way to transfer the user from the register page to the restaurant information page is to transfer the information with a URL, which is not a secure solution for the user's information.

@@ -76,10 +76,6 @@ class WorkingHour(models.Model):
     days = models.TextChoices('days', 'saturday sunday monday thusday wednesday thursday friday')
     day = models.CharField( max_length=30, choices=days.choices)
 
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-
     def __str__(self):
         return self.day
 
@@ -126,9 +122,7 @@ class Restaurant(models.Model):
         return self.name
 
 class Schedule(models.Model):
-
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='schedule')
-
     saturday = models.ForeignKey(WorkingHour, on_delete=models.CASCADE, related_name='saturday', null=True, blank=True)
     sunday = models.ForeignKey(WorkingHour, on_delete=models.CASCADE, related_name='sunday', null=True, blank=True)
     monday = models.ForeignKey(WorkingHour, on_delete=models.CASCADE, related_name='monday', null=True, blank=True)
