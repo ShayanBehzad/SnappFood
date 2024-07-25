@@ -48,9 +48,8 @@ def register(request):
             return redirect('restaurantpage')
 
         else:
-            print(forms.errors)
-            raise Http404
-        
+            messages.error(request, '%s' %forms.errors)
+            
     forms = Registerform
     return render(request, 'registration/register.html', {'form': forms})
 
@@ -72,6 +71,8 @@ def restregister(request):
             restaurant.save()
             messages.success(request, 'Your Restaurant Successfuly Registerd')
             return redirect('restaddress')
+        else:
+            messages.error(request, '%s' %forms.errors)
 
     return render(request, 'registration/restaurantform.html', {'form':forms})
 
@@ -81,11 +82,9 @@ def restaddressregister(request):
     user = User.objects.get(id=user_id)
     print('user is: ',user)
     restaurant = Restaurant.objects.get(seller=user)
-
     forms = RestAddressRegisterForm
-    if request.method == 'GET':
-        return render(request, 'registration/restaurantaddressform.html', {'form':forms})
-    elif request.method == 'POST':
+
+    if request.method == 'POST':
         forms = RestAddressRegisterForm(request.POST)
         if forms.is_valid():
             address = forms.save(commit=False)
@@ -93,6 +92,9 @@ def restaddressregister(request):
             address.save()
             messages.success(request, 'Your Restaurant Address Successfuly Registerd')
             return redirect('/restaurant')
+        else:
+            messages.error(request, '%s' %forms.errors)
+            
     return render(request, 'registration/restaurantaddressform.html', {'form':forms})
 
 

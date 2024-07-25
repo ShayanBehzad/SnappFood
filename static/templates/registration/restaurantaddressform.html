@@ -1,16 +1,129 @@
-
 {% extends 'base.html' %}
-{% load widget_tweaks %}
-{% block content %}
+{% block content %} 
 {% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Form-v4 by Colorlib</title>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/css/opensans-font.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fonts/line-awesome/css/line-awesome.min.css'%}">
+    <!-- Main Style Css -->
+    <link rel="stylesheet" href="{% static 'css/css/style.css' %}">
+</head>
+<style>
+	body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h4 {
+        color: #2c3e50;
+        text-align: center;
+    }
+    h3 {
+        color: 	#FFFFE0;
+        text-align: left;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    .highlight {
+        color: #fff;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+    .number {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+</style>
+{% if messages %}
+<div>
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<body class="form-v4">
+    <div class="page-content">
+        <div class="form-v4-content">
+            <form method="POST" class="form-detail" id="myform" action="{% url 'restaddress' %}" autocomplete="off">
+                {% csrf_token %}
+                <h2>Restaurant Address FORM</h2>
+                <div class="form-group">
+                    <div class="form-row form-row-1">
+                        <label for="{{ form.city.id_for_label }}" class="label">
+                            Restaurant City
+                        </label>
+                        <div class="control">
+                            {{ form.city|add_class:"input" }}
+                        </div>
+                        <p class="help is-danger">{{ form.city.errors }}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-row form-row-1">
+                        <label for="{{ form.address.id_for_label }}" class="label">
+                            Restaurant Address
+                        </label>
+                        <div class="control">
+                            {{ form.address|add_class:"input" }}
+                        </div>
+                        <p class="help is-danger">{{ form.address.errors }}</p>
+                    </div>
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+                </div>
+                <div class="form-group">
+                  <div class="form-row form-row-1">
+                      <label for="{{ form.latitude.id_for_label }}" class="label">
+                        Latitude 
+                      </label>
+                      <div class="control">
+                          {{ form.latitude|add_class:"input" }}
+                      </div>
+                      <p class="help is-danger">{{ form.latitude.errors }}</p>
+                  </div>
+                  <div class="form-row form-row-1">
+                      <label for="{{ form.longitude.id_for_label }}" class="label">
+                        Longitude
+                      </label>
+                      <div class="control">
+                          {{ form.longitude|add_class:"input" }}
+                      </div>
+                      <p class="help is-danger">{{ form.longitude.errors }}</p>
+                  </div>
+              </div>
 
-<form method="post" action="{% url 'restaddress' %}">
-  {% csrf_token %}
-  <div class="form-group">
-    {{form.as_p}}
-  </div>
-  <button type="submit" class="btn btn-primary">Register</button>
-</form>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
 {% endblock content %}

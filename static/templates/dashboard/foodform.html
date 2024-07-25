@@ -19,8 +19,21 @@
         <p>
           <a href="{% url 'settings' %}">Settings</a>
       </p>
+      <p>
+        <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
+    </p>
     </div>
   </head>
+  {% if messages %}
+<div>
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<body>
 <form  method="POST" autocomplete="off" enctype='multipart/form-data'>
     {% csrf_token %}
   
@@ -109,7 +122,7 @@
         </div>
     </div>
  </form>
- 
+</body>
 {% endblock content %}
 
 

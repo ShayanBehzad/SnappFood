@@ -55,7 +55,15 @@
         } {% endcomment %}
     </style>
 <head>
-
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="nav-buttons">
       <p>
           <a href="{% url 'dashboardhome' %}">Dashboard</a>
@@ -69,6 +77,9 @@
       <p>
         <a href="{% url 'settings' %}">Settings</a>
     </p>
+    <p>
+        <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
+    </p>
   </div>
 </head>  
 <body style='direction: ltr;'>
@@ -80,6 +91,7 @@
         <th>State</th>
         <th>Address</th>
       </tr>
+{% if orders %}
   {% for i in orders %}
       <tr>
           <td>{{ i.id }}</td>
@@ -104,6 +116,14 @@
           <td>{%if address.cust == i.cus %}{{ address.city }}{%else%} - {%endif%}</td>
         </tr>
   {%endfor%}
+{% else %}
+<td>None</td>
+<td>-</td>
+<td>-</td>
+<td>You Don't Have Any Orders Yet</td>
+<td>-</td>
+
+{% endif %}
 
     </table>
 </body>

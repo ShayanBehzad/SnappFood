@@ -4,22 +4,35 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-<div class="nav-buttons">
-    <p>
-        <a href="{% url 'dashboardhome' %}">Dashboard</a>
+<head>
+    <div class="nav-buttons">
+        <p>
+            <a href="{% url 'dashboardhome' %}">Dashboard</a>
+        </p>
+        <p>
+            <a href="{% url 'foodlist' %}">Food List</a>
+        </p>
+        <p>
+            <a href="{% url 'reports' %}">Reports</a>
+        </p>
+        <p>
+          <a href="{% url 'settings' %}">Settings</a>
+      </p>
+      <p>
+        <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
     </p>
-    <p>
-        <a href="{% url 'foodlist' %}">Food List</a>
-    </p>
-    <p>
-        <a href="{% url 'reports' %}">Reports</a>
-    </p>
-    <p>
-      <a href="{% url 'settings' %}">Settings</a>
-  </p>
+    </div>
+{% if messages %}
+<div>
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
 </div>
 
+</head>
+{% endif %}
 <form  method="POST" autocomplete="off" enctype='multipart/form-data'>
     {% csrf_token %}
   

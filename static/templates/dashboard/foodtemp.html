@@ -3,7 +3,6 @@
 {% block content %}
 {% load static %}
 
-{% comment %} action="{% url 'register' %}" {% endcomment %}
 
 <!DOCTYPE html>
 <html>
@@ -18,34 +17,32 @@
         <p>
             <a href="{% url 'reports' %}">Reports</a>
         </p>
+        <p>
+            <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
+        </p>
     </div>
     {% block style %}
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% endblock %}  
 </head>
-<body style='direction: ltr;'>
+{% if messages %}
+<div>
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<body>
 {% block title %}
-
-    {% if category %}
-        {{ category.name }}
-    {% else %} 
-         <h1 style='color:black'>Foods</h1>
-    {% endif %}
+         <h1 class='underline' style='color:black; text-align: center;'>Foods</h1>
+         <hr style="border: 0; height: 2px; background: #333; margin-top: 10px;">
 {% endblock %}
-    {% comment %} <div id="sidebar">
-        <h3>Categories</h3>
-        <ul>
-
-            {% for c in categories %}
-                <li {% if category.slug == c.slug %} class="selected" {% endif %}>
-                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div> {% endcomment %}
 
     <div id="main" class="foods-list">
         {% comment %} <h1>{% if category %}{{ category.name }}{% else %}All{% endif %}</h1> {% endcomment %}
+        {% if foods %}
         {% for product in foods %}
             <div class="item">
                 <a href="{{ product.get_absolute_url }}">
@@ -56,7 +53,13 @@
                 <br>${{ product.selling_price }}
             </div>
         {% endfor %}
+        {% else %}
+        <div class='no_foods'>
+            <a style='color:green; text-align: center;' href={% url "foodform" %}><h5>You Haven't Defined Any Foods</h5></a>
+        </div>
+        {% endif %}
     </div>
 </body>
 {% endblock %}
 {% comment %} {% endcomment %}
+

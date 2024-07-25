@@ -9,6 +9,8 @@ from django.conf import settings
 from .forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+
 # from datetime import date
 today = date.today()
 # 'pending'
@@ -16,25 +18,20 @@ today = date.today()
 
 
 # Create your views here.
-@csrf_exempt
+@login_required
 def home(request):
     res = Restaurant.objects.get(seller=request.user)
     state = State.objects.all()
     # if using sqlite, the state id starts from 1
     orders = Order.objects.filter(Q(restaurant=res) , (Q(state=1) | Q(state=2) | Q(state=3)))
-    if request.method == 'GET':
-        print(orders)
-        address = Address.objects.all()
-        
-        print(address)
-        context = {'orders':orders, 'address':address, 'state':state}
-
-        return render(request, 'dashboard/home.html', context)
+    address = Address.objects.all()
+    context = {'orders':orders, 'address':address, 'state':state}
+    return render(request, 'dashboard/home.html', context)
     
 
 
 
-
+@login_required
 def updade_form(request, sub):
      if request.method == 'POST':
         choice = request.POST.get('choice')
@@ -56,25 +53,20 @@ def updade_form(request, sub):
         state = State.objects.all()
         orders = Order.objects.filter(Q(restaurant=res) , (Q(state=1) | Q(state=2) | Q(state=3)))
         context = {'orders':orders, 'state':state}
-
-        return render(request, 'dashboard/home.html', context)
-
-
+        return redirect('dashboardhome')
+        # return render(request, 'dashboard/home.html', context)
 
 
+@login_required
 def food(request):
     # dir = settings.BASE_DIR
-    if request.method == 'GET':
-        res = Restaurant.objects.get(seller=request.user)
-        foods = res.foods.all()
-        return render(request, 'dashboard/foodtemp.html', {'foods':foods})
+    res = Restaurant.objects.get(seller=request.user)
+    foods = res.foods.all()
+    return render(request, 'dashboard/foodtemp.html', {'foods':foods})
 
 
-
+@login_required
 def foodform(request):
-    if request.method == 'GET':
-        forms = FoodForm
-        return render(request, 'dashboard/foodform.html', {'form':forms})
     
     if request.method == 'POST':
         forms = FoodForm(request.POST, request.FILES)
@@ -88,19 +80,18 @@ def foodform(request):
             messages.success(request, 'Your food successfuly added.')
             return redirect('foodlist')
         else:
-            forms = FoodForm
-            print('errors: ',forms.errors)
-            return render(request, 'dashboard/foodform.html', {'form':forms})
+            messages.error(request, '%s' %forms.errors)
+    forms = FoodForm
+    return render(request, 'dashboard/foodform.html', {'form':forms})
 
 
 
-
+@login_required
 def editfoodform(request, food_id):
     food = get_object_or_404(Food, id=food_id)
-    if request.method == 'GET':
-        form = FoodForm(instance=food)
-        return render(request, 'dashboard/editfood.html', {'form':form, 'food':food})
-    elif request.method == 'POST':
+    forms = FoodForm(instance=food)
+
+    if request.method == 'POST':
         forms = FoodForm(request.POST, request.FILES, instance=food)
         if forms.is_valid():
             food = forms.save(commit=False)
@@ -111,13 +102,14 @@ def editfoodform(request, food_id):
             messages.success(request, 'Your food successfuly added.')
             return redirect('foodlist')
         else:
-            forms = FoodForm
-            print('errors: ',forms.errors)
-            return render(request, 'dashboard/editfood.html', {'form':form, 'food':food})
+            messages.error(request, '%s' %forms.errors)
+            # forms = FoodForm
+            # print('errors: ',forms.errors)
+            # return render(request, 'dashboard/editfood.html', {'form':form, 'food':food})
+    return render(request, 'dashboard/editfood.html', {'form':forms, 'food':food})
 
 
-
-
+@login_required
 def report(request):
     res = Restaurant.objects.get(seller=request.user)
     if request.method == 'POST':
@@ -149,16 +141,15 @@ def report(request):
 
 
 
-
+@login_required
 def settings(request):
     res = get_object_or_404(Restaurant, seller=request.user)
     address = get_object_or_404(RestaurantAddress, restaurant=res)
     schedule = get_object_or_404(Schedule, restaurant=res)
 
-    if request.method == 'GET':
-        form = RestSettings(instance=res)
+    form = RestSettings(instance=res)
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = RestSettings(request.POST, request.FILES, instance=res)
         if form.is_valid():
             res = form.save(commit=False)
@@ -168,20 +159,20 @@ def settings(request):
             return render(request, 'dashboard/settings.html', {'form':form})
 
         else:
-            messages.success(request, form.errors)
+            messages.error(request, '%s' %forms.errors)
 
     return render(request, 'dashboard/settings.html', {'form':form})
 
+
+@login_required
 def schedule_setting(request):
     res = get_object_or_404(Restaurant, seller=request.user)
     address = get_object_or_404(RestaurantAddress, restaurant=res)
     schedule = get_object_or_404(Schedule, restaurant=res)
-    # sunday =
-    if request.method == 'GET':
-        form = RestScheduleRegisterForm(instance=schedule)
-        forms = WorkingHourForm()
+    form = RestScheduleRegisterForm(instance=schedule)
+    forms = WorkingHourForm()
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = RestScheduleRegisterForm(request.POST, request.FILES, instance=schedule)
         # sun_forms = WorkingHourForm(instance=)
         if form.is_valid():
@@ -192,23 +183,23 @@ def schedule_setting(request):
                 messages.success(request, 'Your changes Successfuly registerd')
                 return render(request, 'dashboard/setting_schedule.html', {'form':form, 'forms':forms})
             else:
-                messages.success(request, forms.errors)
-
+                messages.error(request, '%s' %forms.errors)
         else:
-            messages.success(request, form.errors)
+            messages.error(request, '%s' %form.errors)
 
     return render(request, 'dashboard/setting_schedule.html', {'form':form, 'forms':forms})
 
+
+
+@login_required
 def address_setting(request):
 
     res = get_object_or_404(Restaurant, seller=request.user)
     address = get_object_or_404(RestaurantAddress, restaurant=res)
     schedule = get_object_or_404(Schedule, restaurant=res)
+    form = RestAddressRegisterForm(instance=address)
 
-    if request.method == 'GET':
-        form = RestAddressRegisterForm(instance=address)
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = RestAddressRegisterForm(request.POST, request.FILES, instance=address)
         if form.is_valid():
             res = form.save(commit=False)
@@ -218,6 +209,6 @@ def address_setting(request):
             return render(request, 'dashboard/setting_address.html', {'form':form})
 
         else:
-            messages.success(request, form.errors)
+            messages.error(request, '%s' %form.errors)
 
     return render(request, 'dashboard/setting_address.html', {'form':form})
