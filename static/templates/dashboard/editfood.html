@@ -4,126 +4,155 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-<head>
-    <div class="nav-buttons">
-        <p>
-            <a href="{% url 'dashboardhome' %}">Dashboard</a>
-        </p>
-        <p>
-            <a href="{% url 'foodlist' %}">Food List</a>
-        </p>
-        <p>
-            <a href="{% url 'reports' %}">Reports</a>
-        </p>
-        <p>
-          <a href="{% url 'settings' %}">Settings</a>
-      </p>
-      <p>
-        <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
-    </p>
-    </div>
-{% if messages %}
-<div>
-    {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-        </div>
-    {% endfor %}
-</div>
+<style>
+        /* General form styles */
+    .field {
+        margin-bottom: 1rem;
+    }
 
+    .control {
+        margin-top: 0.5rem;
+    }
+
+    /* Form row styling for alignment */
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    /* Ensure labels and inputs are aligned */
+    .form-row .field {
+        flex: 1;
+        margin-right: 1rem;
+    }
+
+    .form-row .field:last-child {
+        margin-right: 0;
+    }
+
+    /* Price and discount fields */
+    .input-price {
+        flex: 2; /* Make the price input larger */
+    }
+
+    .input-discount {
+        flex: 1;
+    }
+
+    /* Foodparty and is available fields */
+    .input-foodparty {
+        flex: 2; /* Adjust size if needed */
+    }
+
+    .input-is-available {
+        flex: 1;
+    }
+
+    /* General input box styling */
+    .input {
+        width: 100%; /* Full width */
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .button {
+        margin-top: 1rem;
+    }
+
+</style>
+<head>
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
 </head>
 {% endif %}
-<form  method="POST" autocomplete="off" enctype='multipart/form-data'>
+<form method="POST" autocomplete="off" enctype='multipart/form-data'>
     {% csrf_token %}
-  
+
     <div class="field">
-        <label for="{{ form.image.id_for_label }}" class="label">
-            Image:
-        </label>
+        <label for="{{ form.image.id_for_label }}" class="label">Image:</label>
         <div class="control">
             {{ form.image|add_class:"input" }}
         </div>
         <p class="help is-danger">{{ form.image.errors }}</p>
     </div>
 
-    <div class="field">
-        <label for="{{ form.name.id_for_label }}" class="label">
-            Name:
-        </label>
-        <div class="control">
-            {{ form.name|add_class:"input" }}
+    <div class="form-row">
+        <div class="field">
+            <label for="{{ form.name.id_for_label }}" class="label">Name:</label>
+            <div class="control">
+                {{ form.name|add_class:"input" }}
+            </div>
+            <p class="help is-danger">{{ form.name.errors }}</p>
         </div>
-        <p class="help is-danger">{{ form.name.errors }}</p>
+        <div class="field">
+            <label for="{{ form.category.id_for_label }}" class="label">Category:</label>
+            <div class="control">
+                {{ form.category|add_class:"input" }}
+            </div>
+            <p class="help is-danger">{{ form.category.errors }}</p>
+        </div>
     </div>
- 
 
     <div class="field">
-        <label for="{{ form.ingredients.id_for_label }}" class="label">
-            ingredients:
-        </label>
+        <label for="{{ form.ingredients.id_for_label }}" class="label">Ingredients:</label>
         <div class="control">
             {{ form.ingredients|add_class:"input" }}
         </div>
         <p class="help is-danger">{{ form.ingredients.errors }}</p>
     </div>
- 
-    <div class="field">
-        <label for="{{ form.category.id_for_label }}" class="label">
-          Category
-        </label>
-        <div class="control">
-            {{ form.category|add_class:"input" }}
+
+
+
+    <div class="form-row">
+        <div class="field">
+            <label for="{{ form.price.id_for_label }}" class="label">Price:</label>
+            <div class="control">
+                {{ form.price|add_class:"input input-price" }}
+            </div>
+            <p class="help is-danger">{{ form.price.errors }}</p>
         </div>
-        <p class="help is-danger">{{ form.category.errors }}</p>
-    </div>
- 
-    <div class="field">
-        <label for="{{ form.price.id_for_label }}" class="label">
-          Price
-        </label>
-        <div class="control">
-            {{ form.price|add_class:"input" }}
-        </div>
-        <p class="help is-danger">{{ form.price.errors }}</p>
-    </div>
- 
-    <div class="field">
-        <label for="{{ form.discount.id_for_label }}" class="label">
-            Discount
-        </label>
-        <div class="control">
-            {{ form.discount|add_class:"input" }}
-        </div>
-        <p class="help is-danger">{{ form.discount.errors }}</p>
-    </div>
-    <div class="field">
-        <label for="{{ form.is_available.id_for_label }}" class="label">
-            Is Available:
-        </label>
-        <div class="control">
-            {{ form.is_available|add_class:"input" }}
-        </div>
-        <p class="help is-danger">{{ form.is_available.errors }}</p>
-    </div>
-    <div class="field">
-        <label for="{{ form.foodparty.id_for_label }}" class="label">
-            Foodparty:
-        </label>
-        <div class="control">
-            {{ form.foodparty|add_class:"input" }}
-        </div>
-        <p class="help is-danger">{{ form.foodparty.errors }}</p>
-    </div>
- 
-    <div class="field">
-        <div class="control">
-            <button class="button is-link">Add</button>
+
+        <div class="field">
+            <label for="{{ form.discount.id_for_label }}" class="label">Discount:</label>
+            <div class="control">
+                {{ form.discount|add_class:"input input-discount" }}
+            </div>
+            <p class="help is-danger">{{ form.discount.errors }}</p>
         </div>
     </div>
- </form>
- 
+
+    <div class="form-row">
+        <div class="field">
+            <label for="{{ form.foodparty.id_for_label }}" class="label">Foodparty:</label>
+            <div class="control">
+                {{ form.foodparty|add_class:"input input-foodparty" }}
+            </div>
+            <p class="help is-danger">{{ form.foodparty.errors }}</p>
+        </div>
+
+        <div class="field">
+            <label for="{{ form.is_available.id_for_label }}" class="label">Is Available:</label>
+            <div class="control">
+                {{ form.is_available|add_class:"input input-is-available" }}
+            </div>
+            <p class="help is-danger">{{ form.is_available.errors }}</p>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <button style='text-align: center;' class="button is-link">Add</button>
+        </div>
+    </div>
+</form>
+
 {% endblock content %}
-
-
-
-

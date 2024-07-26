@@ -1,4 +1,3 @@
-{% extends 'base.html' %}
 {% block content %} 
 {% load static %}
 {% load widget_tweaks %}
@@ -14,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/fonts/line-awesome/css/line-awesome.min.css'%}">
     <!-- Main Style Css -->
     <link rel="stylesheet" href="{% static 'css/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
 <style>
 	body {
@@ -70,21 +71,21 @@
         <div class="form-v4-content">
             <div class="form-left" style='direction: ltr;'>
 				<h4>Welcome to my clone of Snappfood</h1>
-				<p>This section is for sellers. You can register in less than 2 minutes and have access to your own control panel.</p>
+				<p>This section is for sellers. You can register in less than 3 minutes and have access to your own control panel.</p>
 				<h3>This section contains:</h3>
 				<ul>
-		            <li><span class="number">1.</span> <span class="highlight">Authentication with token generate</span></li>
-                    <li><span class="number">2.</span> <span class="highlight">Welcome email sending system working with Redis and Celery</span></li>
-                    <li><span class="number">3.</span> <span class="highlight">Dashboard to manage orders and their status</span></li>
-                    <li><span class="number">4.</span> <span class="highlight">Food list, add and edit foods</span></li>
-                    <li><span class="number">5.</span> <span class="highlight">Report of closed orders with date filter</span></li>
-                    <li><span class="number">6.</span> <span class="highlight">Settings that allow you to change or add restaurant image and set restaurant schedule</span></li>
+		            <li><span class="number">1.</span> <span class="highlight">Authentication with token </span></li>
+                    <li><span class="number">2.</span> <span class="highlight">Sending wlc Email with Redis and Celery</span></li>
+                    <li><span class="number">3.</span> <span class="highlight">Dashboard to Manage Orders and Status</span></li>
+                    <li><span class="number">4.</span> <span class="highlight">List of Foods with Edit Ability</span></li>
+                    <li><span class="number">5.</span> <span class="highlight">Reports of Closed Orders with Date Filter</span></li>
+                    <li><span class="number">6.</span> <span class="highlight">Settings Page that Allows You to Change or Add Restaurant Image and Restaurant Schedule</span></li>
 				</ul>
                 <div class="form-left-last">
-					<input type="button" name="account" class="account" value="Have An Account" onclick="window.location.href='{% url 'login' %}'">
+					<input type="button" style="text-align:center;" name="account" class="account" value="Have An Account" onclick="window.location.href='{% url 'login' %}'">
                 </div>
             </div>
-            <form method="POST" class="form-detail" id="myform" action="{% url 'registerpage' %}" autocomplete="off">
+            <form method="POST" class="form-detail" style="text-align:center;" id="myform" action="{% url 'registerpage' %}" autocomplete="off">
                 {% csrf_token %}
                 <h2>REGISTER FORM</h2>
                 <div class="form-group">
@@ -140,7 +141,7 @@
                 </div>
                 <div class="field">
                     <div class="control">
-                        <button class="button is-link" type="submit">REGISTER</button>
+                        <button class="button is-link" style="text-align:center;" type="submit">REGISTER</button>
                     </div>
                 </div>
             </form>

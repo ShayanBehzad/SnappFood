@@ -7,21 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <head>
-    <p>
-      <a href={% url 'dashboardhome'%}>Dashboard<a>
-    </p>
-    <p>
-      <a href={%url 'foodlist'%}>FoodList</a>
-    </p>
-    <p>
-        <a href={% url 'foodform'%}>Add Food<a>
-    </p>
-    <p>
-        <a href={% url 'reports'%}>Reports<a>
-    </p>
-    <p>
-      <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
-  </p>
+
 </head>
 <!DOCTYPE html>
 <html>
@@ -120,12 +106,12 @@
           <p class="help is-danger">{{ form.is_open.errors }}</p>
       </div>
       </div>
-      <p>
+      {% comment %} <p>
         <a href={% url 'address_setting'%}>address<a>
     </p>
     <p>
       <a href={% url 'schedule_setting'%}>schedule<a>
-  </p>
+  </p> {% endcomment %}
       <input type="submit" value="Save Changes" class="btn">
     </form>
   </div>

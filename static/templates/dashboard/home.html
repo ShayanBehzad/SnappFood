@@ -36,23 +36,6 @@
             background-color: #f9f9f9;
         }
         
-        {% comment %} .nav-buttons {
-            margin-bottom: 20px;
-        }
-        
-        .nav-buttons p {
-            display: inline;
-            margin-right: 20px;
-        }
-        
-        .nav-buttons a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        
-        .nav-buttons a:hover {
-            text-decoration: underline;
-        } {% endcomment %}
     </style>
 <head>
     {% if messages %}
@@ -64,25 +47,8 @@
         {% endfor %}
     </div>
     {% endif %}
-    <div class="nav-buttons">
-      <p>
-          <a href="{% url 'dashboardhome' %}">Dashboard</a>
-      </p>
-      <p>
-          <a href="{% url 'foodlist' %}">Food List</a>
-      </p>
-      <p>
-          <a href="{% url 'reports' %}">Reports</a>
-      </p>
-      <p>
-        <a href="{% url 'settings' %}">Settings</a>
-    </p>
-    <p>
-        <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
-    </p>
-  </div>
 </head>  
-<body style='direction: ltr;'>
+<body style='direction: ltr; border= 10%;'>
   <table>
       <tr>
         <th>Sub</th>
@@ -94,9 +60,9 @@
 {% if orders %}
   {% for i in orders %}
       <tr>
-          <td>{{ i.id }}</td>
+          <td>{% if i.id %}{{ i.id }}{% else %}-{% endif %}</td>
           <td> {{i.cus }}</td>
-          <td>{{i.cus.phone}}</td>
+          <td>{% if i.cus.phone %}{{ i.cus.phone }}{% else %}-{% endif %}</td>
           <td>
             <form method='POST' action="{% url 'update' i.id %}" id="{{i.id }}">
             <div class="row">
@@ -108,7 +74,7 @@
                   {%endfor%}
               </div>
               <div class="col">
-                <input type="submit" class="btn btn-default" value="Submit" >
+                <input type="submit" style="background-color: #333" class="btn btn-default" value="Submit" >
               </div>
             </div>
             </form>
@@ -124,7 +90,13 @@
 <td>-</td>
 
 {% endif %}
-
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
     </table>
 </body>
 {%endblock%}

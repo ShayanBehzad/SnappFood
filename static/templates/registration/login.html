@@ -1,40 +1,177 @@
-{% extends "base.html" %}
- 
-{% block content %}
- 
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
- 
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>
+    {% comment %} .page-content {
+      width: 100%;
+      margin:  0 auto;
+      background: #75e2e9;
+      display: flex;
+      display: -webkit-flex;
+      justify-content: center;
+      -o-justify-content: center;
+      -ms-justify-content: center;
+      -moz-justify-content: center;
+      -webkit-justify-content: center;
+      align-items: center;
+      -o-align-items: center;
+      -ms-align-items: center;
+      -moz-align-items: center;
+      -webkit-align-items: center;
+    } {% endcomment %}
+    .footer-container {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .footer-container p, .footer-container a {
+        margin: 0;
+        padding: 0 10px;
+    }
+    .footer-container a {
+        color: #1e90ff;
+        text-decoration: none;
+    }
+    .footer-container a:hover {
+        text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+        .footer-container {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+  .login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+  }
+
+  .login-form .form-group {
+    margin-bottom: 15px;
+  }
+
+  .login-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .login-form input[type="text"],
+  .login-form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .login-form .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+  }
+
+  .btn-secondary {
+    color: black;
+    background-color: #f9f9f9;
+    margin-top: 10px;
+  }
+
+  .links {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .links .btn {
+    width: auto;
+    margin: 0 5px;
+  }
+
+</style>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+
+    {% if form.errors %}
+      <div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
     {% endif %}
-  {% endif %}
- 
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tbody><tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </tbody></table>
-    <input type="submit" style='background-color:blue;' value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-  </form>
- 
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <input type="button" name="account" class="account" value="?Lost Your Password" onclick="window.location.href='{% url 'password_reset' %}'">
-  <input type="button" name="account" class="account" value="Dont Have Account, Register" onclick="window.location.href='{% url 'registerpage' %}'">
 
+    {% if next %}
+      {% if user.is_authenticated %}
+        <div class="alert alert-info">Your account doesn't have access to this page. To proceed, please login with an account that has access.</div>
+      {% else %}
+        <div class="alert alert-info">Please login to see this page.</div>
+      {% endif %}
+    {% endif %}
 
- 
-{% endblock %}
+    <form method="post" action="{% url 'login' %}" class="login-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+      </div>
+      <div class="form-group">
+        <input type="submit" style='text-align: center; background-color:blue;' class="btn btn-primary" value="Login">
+        <input type="hidden" name="next" value="{{ next }}">
+      </div>
+    </form>
+
+    <div class="links">
+      <button class="btn btn-secondary" onclick="window.location.href='{% url 'password_reset' %}'">Forgot Your Password?</button>
+      <button class="btn btn-secondary" onclick="window.location.href='{% url 'registerpage' %}'">Don't Have an Account? Register</button>
+    </div>
+  </div>
+</body>
+<footer>
+  <div class="footer-container">
+    {% comment %} {% url 'main_resume' %} {% endcomment %}
+      <p>Made By <a href="https://shayanbehzad.ir/">Shayan Behzad</a></p>
+      <p>Phone:<a href="tel:+989302637316">+98 930 263 7316</a></p>
+      <p>Email: <a href="mailto:shayan.behzad1380@gmail.com">shayan.behzad1380@gmail.com</a></p>
+      <p>GitHub: <a href="https://github.com/ShayanBehzad/" target="_blank">ShayanBehzad</a></p>
+  </div>
+</footer>
+

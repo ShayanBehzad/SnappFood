@@ -7,20 +7,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <div class="nav-buttons">
-        <p>
-            <a href="{% url 'dashboardhome' %}">Dashboard</a>
-        </p>
-        <p>
-            <a href="{% url 'foodform' %}">Add Food</a>
-        </p>
-        <p>
-            <a href="{% url 'reports' %}">Reports</a>
-        </p>
-        <p>
-            <a style='background-color: red;' href="{% url 'logout' %}">Logout</a>
-        </p>
-    </div>
     {% block style %}
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% endblock %}  
@@ -40,7 +26,7 @@
          <hr style="border: 0; height: 2px; background: #333; margin-top: 10px;">
 {% endblock %}
 
-    <div id="main" class="foods-list">
+    <div style="border= 10%;" id="main" class="foods-list">
         {% comment %} <h1>{% if category %}{{ category.name }}{% else %}All{% endif %}</h1> {% endcomment %}
         {% if foods %}
         {% for product in foods %}

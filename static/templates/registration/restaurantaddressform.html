@@ -14,6 +14,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/fonts/line-awesome/css/line-awesome.min.css'%}">
     <!-- Main Style Css -->
     <link rel="stylesheet" href="{% static 'css/css/style.css' %}">
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 </head>
 <style>
 	body {
@@ -56,15 +65,8 @@
         font-weight: bold;
     }
 </style>
-{% if messages %}
-<div>
-    {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-            {{ message }}
-        </div>
-    {% endfor %}
-</div>
-{% endif %}
+
+
 <body class="form-v4">
     <div class="page-content">
         <div class="form-v4-content">
